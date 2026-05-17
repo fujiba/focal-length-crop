@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*" # vから始まるタグ（例: v0.2.0）がプッシュされたときにトリガー
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # リリースを作成・ファイルをアップロードするために必要
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Build zip package
+        run: |
+          chmod +x build-release.sh
+          ./build-release.sh
+
+      - name: Create Release and Upload
+        uses: softprops/action-gh-release@v3
+        with:
+          files: dist/*.zip
+          generate_release_notes: true # 自動でリリースノート（PR一覧等）を生成する
