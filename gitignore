@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# ビルド成果物
+*.zip
+dist/
+build/
+
+# Lightroom が生成する一時ファイル
+*.lrtemp
