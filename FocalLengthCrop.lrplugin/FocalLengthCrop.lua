@@ -57,8 +57,10 @@ local function calculateNewCrop(currentCrop, scale)
     local width  = currentCrop.right  - currentCrop.left
     local height = currentCrop.bottom - currentCrop.top
 
-    local newWidth  = width  * scale
-    local newHeight = height * scale
+    local currentMax = math.max(width, height)
+    local relativeScale = scale / (currentMax > 0 and currentMax or 1)
+    local newWidth  = width  * relativeScale
+    local newHeight = height * relativeScale
 
     local newLeft   = centerX - newWidth  / 2
     local newRight  = centerX + newWidth  / 2
@@ -221,14 +223,11 @@ LrTasks.startAsyncTask(function()
     end
 
     -- ===== EXIF取得 =====
-    local realFocalStr    = photo:getFormattedMetadata("focalLength")
-    local equiv35FocalStr = photo:getFormattedMetadata("focalLength35mm")
-    local cameraModel     = photo:getFormattedMetadata("cameraModel")
+    local realFocal    = photo:getRawMetadata("focalLength")
+    local equiv35Focal = photo:getRawMetadata("focalLength35mm")
+    local cameraModel  = photo:getFormattedMetadata("cameraModel")
 
-    local realFocal    = parseFocalLength(realFocalStr)
-    local equiv35Focal = parseFocalLength(equiv35FocalStr)
-
-    if not realFocal then
+    if not realFocal or realFocal <= 0 then
         LrDialogs.message(
             "焦点距離が取得できません",
             "この写真のEXIFに焦点距離情報が含まれていません。",
