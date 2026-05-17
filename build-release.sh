@@ -18,9 +18,10 @@ if [[ ! -d "${PLUGIN_DIR}" ]]; then
 fi
 
 # Info.lua から VERSION = { major = X, minor = Y, revision = Z } を抽出
-MAJOR=$(grep -oE 'major\s*=\s*[0-9]+' "${INFO_LUA}" | grep -oE '[0-9]+')
-MINOR=$(grep -oE 'minor\s*=\s*[0-9]+' "${INFO_LUA}" | grep -oE '[0-9]+')
-REVISION=$(grep -oE 'revision\s*=\s*[0-9]+' "${INFO_LUA}" | grep -oE '[0-9]+')
+VERSION_LINE=$(sed -n -E '/VERSION[[:space:]]*=/p' "${INFO_LUA}")
+MAJOR=$(echo "${VERSION_LINE}" | sed -n -E 's/.*major[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p')
+MINOR=$(echo "${VERSION_LINE}" | sed -n -E 's/.*minor[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p')
+REVISION=$(echo "${VERSION_LINE}" | sed -n -E 's/.*revision[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p')
 
 VERSION="${MAJOR}.${MINOR}.${REVISION}"
 ZIP_NAME="FocalLengthCrop-v${VERSION}.zip"
