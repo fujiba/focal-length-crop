@@ -75,10 +75,10 @@ MIT License - [LICENSE](LICENSE) を参照
 
 ## 作者
 
-**ふじば (FUJIBA WORKS)**
+T.Fujiba(FUJIBA WORKS)
 
 - 航空写真作家・プログラマ
-- Web: https://fujiba.net/
+- Web: <https://www.fujiba.net/>
 
 ## 変更履歴
 
